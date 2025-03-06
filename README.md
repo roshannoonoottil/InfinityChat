@@ -1,0 +1,2 @@
+# InfinityChat
+ realtime chat application
