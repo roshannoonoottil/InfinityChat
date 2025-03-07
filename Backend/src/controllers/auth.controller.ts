@@ -110,3 +110,6 @@ export const logout = (req: Request, res: Response): void => {
     }
 };
 
+export const updateProfile = async (req: Request, res: Response) => {
+
+};
