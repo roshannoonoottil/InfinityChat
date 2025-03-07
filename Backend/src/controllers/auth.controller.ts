@@ -59,11 +59,54 @@ export const signup = async (req: Request, res: Response): Promise<void>=> {
     }
 };
 
-export const login = (req: Request, res: Response): void => {
-    res.send('login route');
+export const login = async (req: Request, res: Response): Promise<void> => {
+    const { email,password} = req.body
+    try {
+        const user = await User.findOne({email})
+
+        if(!user) {
+            res.status(400).json({message: "Invalid username or password"})
+            return ;
+        }
+        const isPasswordCorrect = await bcrypt.compare(password, user.password)
+        if(!isPasswordCorrect){
+            res.status(400).json({message: "Invalid username or password"})
+            return ;
+        }
+        
+        generateToken(user._id.toString(), res)
+
+        res.status(200).json({
+            _id:user._id,
+            fullName:user.fullName,
+            email:user.email,
+            profilePic:user.profilePic
+        })
+
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Error in login controller", error.message);
+            res.status(500).json({ message: error.message || "Internal Server Error" });
+        } else {
+            console.log("Unexpected error in login controller", error);
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    }
 };
 
 export const logout = (req: Request, res: Response): void => {
-    res.send('logout route');
+    try {
+        res.cookie("jwt", "", {maxAge:0})
+        res.status(200).json({message:"Logged out successfully"})
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            console.log("Error in logout controller:", error.message);
+            res.status(500).json({ message: error.message || "Internal Server Error" });
+        } else {
+            console.log("Unexpected error in logout controller:", error);
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    }
 };
 
