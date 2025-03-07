@@ -1,19 +1,21 @@
-import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import express from 'express';
+import authRoutes from './routes/auth.route'
+import dotenv from 'dotenv'
+import { connetDB } from './lib/db';
 
-dotenv.config();
+
+dotenv.config()
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, TypeScript with Node.js!');
-});
+app.use('/api/auth', authRoutes)
+
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    connetDB()
 });
+ 
