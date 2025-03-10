@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/user.model';
 import bcrypt from 'bcryptjs'
 import { generateToken } from '../lib/utiles';
+import cloudinary from '../lib/cloudinary';
 
 
 export const signup = async (req: Request, res: Response): Promise<void>=> {
@@ -110,6 +111,49 @@ export const logout = (req: Request, res: Response): void => {
     }
 };
 
-export const updateProfile = async (req: Request, res: Response) => {
+
+interface AuthenticatedRequest extends Request {
+    user?: {
+      _id: string;
+    };
+  }
+
+export const updateProfile = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+    try {
+        const {profilePic} = req.body;
+        const userId = req.user?._id;
+
+        if(!profilePic) {
+            res.status(400).json({message: "Profile pic is required"})
+            return ;
+        }
+        const uploadResponse = await cloudinary.uploader.upload(profilePic);
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { profilePic: uploadResponse.secure_url },
+            { new: true }
+          );
+
+          res.status(200).json(updatedUser);
+    } catch (error) {
+        console.log("error in update profile:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
 
 };
+
+
+export const checkAuth = async (req: AuthenticatedRequest, res: Response): Promise<void> =>{
+    try {
+        if (!req.user) {
+            res.status(401).json({ message: "Unauthorized: No user found" });
+            return;
+          }
+      
+        res.status(200).json(req.user);
+    } catch (error) {
+        console.error("Error in checkAuth controller:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+      }
+
+}
