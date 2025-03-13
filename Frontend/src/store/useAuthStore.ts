@@ -22,6 +22,7 @@ interface AuthStore {
   signup: (data: Record<string, any>) => Promise<void>;
   logout: () => Promise<void>;
   login: (data: Record<string, any>) => Promise<void>;
+  updateProfile: (data: Record<string, any>) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -91,6 +92,23 @@ logout: async (): Promise<void> => {
     } else {
       toast.error("An unexpected error occurred. Please try again.");
     }
+  }
+},
+
+updateProfile: async (data: Record<string, any>) =>{
+  set({ isUpdatingProfile: true})
+  try {
+    const res = await axiosInstance.put("/auth/update-profile", data);
+    set({ authUser: res.data });
+    toast.success("Profile updated successfully");
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
+      }
+  } finally {
+    set({ isUpdatingProfile: false })
   }
 }
 
