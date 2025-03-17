@@ -26,6 +26,7 @@ interface ChatState {
 
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
+  setselectedUser : (user: User) => Promise<void>;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -38,7 +39,7 @@ export const useChatStore = create<ChatState>((set) => ({
   getUsers: async () => {
     set({ isUsersLoading: true });
     try {
-      const res = await axiosInstance.get<User[]>("/messages/users");
+      const res = await axiosInstance.get<User[]>("/messages/user");
       set({ users: res.data });
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

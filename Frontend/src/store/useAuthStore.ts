@@ -17,6 +17,7 @@ interface AuthStore {
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
+  onlineUsers: string[];
   isCheckingAuth: boolean;
   checkAuth: () => Promise<void>;
   signup: (data: Record<string, any>) => Promise<void>;
@@ -29,6 +30,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
+  onlineUsers: [],
   isUpdatingProfile: false,
   isCheckingAuth: true,
 
