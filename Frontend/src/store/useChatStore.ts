@@ -26,7 +26,7 @@ interface ChatState {
 
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
-  setselectedUser : (user: User) => Promise<void>;
+  setSelectedUser: (user: User) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -68,5 +68,5 @@ export const useChatStore = create<ChatState>((set) => ({
     }
   },
 
-  setselectedUser : async (selectedUser: any) => set({selectedUser})
+  setSelectedUser: async (user) => set({ selectedUser: user }),
 }));
