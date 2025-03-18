@@ -4,9 +4,9 @@ import { axiosInstance } from "../lib/axiox";
 import axios from "axios";
 
 interface User {
-  id: string;
-  name: string;
-  email: string;
+  _id: string; // ✅ Changed 'id' to '_id'
+  fullName: string; // ✅ Changed 'name' to 'fullName'
+  profilePic?: string; // ✅ Added 'profilePic'
 }
 
 interface Message {
@@ -26,7 +26,7 @@ interface ChatState {
 
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
-  setSelectedUser: (user: User) => void;
+  setSelectedUser: (user: User | null) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -52,7 +52,7 @@ export const useChatStore = create<ChatState>((set) => ({
     }
   },
 
-  getMessages: async (userId: String) => {
+  getMessages: async (userId: string) => {
     set({ isMessagesLoading: true });
     try {
       const res = await axiosInstance.get<Message[]>(`/messages/${userId}`);
@@ -68,5 +68,6 @@ export const useChatStore = create<ChatState>((set) => ({
     }
   },
 
-  setSelectedUser: async (user) => set({ selectedUser: user }),
+  setSelectedUser: (user: User | null) => set({ selectedUser: user }),
+
 }));
