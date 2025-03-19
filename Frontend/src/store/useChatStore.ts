@@ -27,9 +27,12 @@ interface ChatState {
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
   setSelectedUser: (user: User | null) => void;
+  sendMessage: (messageData: { text: string; image?: string | null }) => Promise<void>;
 }
 
-export const useChatStore = create<ChatState>((set) => ({
+
+
+export const useChatStore = create<ChatState>((set,get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -67,6 +70,23 @@ export const useChatStore = create<ChatState>((set) => ({
       set({ isMessagesLoading: false });
     }
   },
+
+
+  sendMessage: async (messageData: { text: string }) => {
+    const { selectedUser, messages } = get();
+    if (!selectedUser) return Promise.resolve();
+    try {
+      const res = await axiosInstance.post<Message>(`/messages/send/${selectedUser._id}`, messageData);
+      set({ messages: [...messages, res.data] });
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || "Failed to send message");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
+  },
+  
 
   setSelectedUser: (user: User | null) => set({ selectedUser: user }),
 
