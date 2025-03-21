@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Define the type for the auth user
 interface AuthUser {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   profilePic?: string;
@@ -86,7 +86,7 @@ login : async (data: Record<string, any>) => {
 logout: async (): Promise<void> => {
   try {
     await axiosInstance.post("/auth/logout");
-    set({ authUser: null });
+    set({ authUser: null, onlineUsers: [] });
     toast.success("Logged out successfully");
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

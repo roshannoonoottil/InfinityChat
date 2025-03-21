@@ -10,11 +10,12 @@ interface User {
 }
 
 interface Message {
-  id: string;
+  _id: string;
   senderId: string;
   receiverId: string;
-  content: string;
-  timestamp: string;
+  text: string;
+  createdAt: string;
+  image?: string;
 }
 
 interface ChatState {
