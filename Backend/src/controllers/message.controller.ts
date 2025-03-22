@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/user.model';
 import Message from '../models/message.model';
 import cloudinary from '../lib/cloudinary';
+import { getReceiverSocketId, io } from '../lib/socket';
 
 interface AuthenticatedRequest extends Request {
     user?: {
@@ -76,6 +77,11 @@ try {
 
     await newMessage.save()
 
+    const receiverSocketId = getReceiverSocketId(receiverId)
+    if(receiverSocketId){
+      io.to(receiverSocketId).emit('newMessage', newMessage)
+    }
+    
     res.status(200).json(newMessage)
 } catch (error) {
     console.log("error in sendMessage controller:", error);

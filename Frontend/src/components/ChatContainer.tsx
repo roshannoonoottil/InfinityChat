@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useChatStore } from "../store/useChatStore"
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
@@ -8,14 +8,25 @@ import { formatMessageTime } from "../lib/utils";
 
 
 function ChatContainer() {
-const { messages, getMessages, isMessagesLoading, selectedUser} = useChatStore()
+const { messages, getMessages, isMessagesLoading, selectedUser, subscribeToMessages, unsubscribeFromMessages} = useChatStore()
 const { authUser } = useAuthStore();
+const messageEndRef = useRef<HTMLDivElement | null>(null)
 
 useEffect(()=>{
   if (selectedUser) { 
     getMessages(selectedUser._id);
+    subscribeToMessages();
   }
-},[selectedUser, getMessages])
+  return(()=>{
+    unsubscribeFromMessages();
+  })
+},[selectedUser, getMessages, subscribeToMessages, unsubscribeFromMessages])
+
+useEffect(()=>{
+  if (messageEndRef.current && messages) { 
+    messageEndRef.current.scrollIntoView({ behavior: "smooth" }); 
+  }
+},[messages])
 
 if(isMessagesLoading) {
   return (
@@ -34,7 +45,9 @@ if(isMessagesLoading) {
       <div className="flex-1 flex flex-col overflow-auto">
       {messages.map((message) => (
         <div key={message._id}
-         className={`chat ${message.senderId === authUser?._id ? 'chat-end' : 'chat-start'}`}>
+         className={`chat ${message.senderId === authUser?._id ? 'chat-end' : 'chat-start'}`}
+         ref={messageEndRef}
+         >
           <div className="chat-image avatar">
           <div className="size-10 rounded-full border">
             <img src={ message.senderId === authUser?._id
