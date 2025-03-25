@@ -7,7 +7,7 @@ interface AuthImagePatternProps {
 
 const AuthImagePattern: React.FC<AuthImagePatternProps> = ({ title, subtitle }) => {
   return (
-    <div className="hidden lg:flex items-center justify-center bg-base-200 p-12 relative overflow-hidden">
+    <div className="hidden lg:flex items-center justify-center bg-[#030F0F] p-12 relative overflow-hidden">
       {/* Floating Abstract Shapes */}
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="relative w-64 h-64">
@@ -21,7 +21,7 @@ const AuthImagePattern: React.FC<AuthImagePatternProps> = ({ title, subtitle }) 
       {/* Text Content */}
       <div className="relative z-10 max-w-md text-center">
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
-        <p className="text-base-content/60">{subtitle}</p>
+        <p className="text-[#00DF82]/80 text-lg">{subtitle}</p>
       </div>
     </div>
   );

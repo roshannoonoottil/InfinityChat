@@ -23,80 +23,84 @@ const Profile = () => {
   };
 
   return (
-    <div className="h-screen pt-20">
-      <div className="max-w-2xl mx-auto p-4 py-8">
-        <div className="bg-base-300 rounded-xl p-6 space-y-8">
-          <div className="text-center">
-            <h1 className="text-2xl font-semibold">Profile</h1>
-            <p className="mt-2">Your profile information</p>
+<div className="min-h-screen pt-20 bg-[#030F0F]">
+  <div className="max-w-2xl mx-auto p-4 py-8">
+    <div className="bg-[#14281D] rounded-xl p-6 space-y-8 border border-[#03624C]/30">
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-[#00DF82]">Profile</h1>
+        <p className="mt-2 text-[#FFFCDC]/80">Your profile information</p>
+      </div>
+
+      {/* Avatar Upload - Same structure, just colored */}
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative">
+          <img
+            src={selectedImg || authUser.profilePic || "/propic.jpg"}
+            alt="Profile"
+            className="size-32 rounded-full object-cover border-4 border-[#00DF82]"
+          />
+          <label
+            htmlFor="avatar-upload"
+            className={`absolute bottom-0 right-0 bg-[#03624C] hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200 ${
+              isUpdatingProfile ? "animate-pulse pointer-events-none" : ""
+            }`}
+          >
+            <Camera className="w-5 h-5 text-[#FFFCDC]" />
+            <input
+              type="file"
+              id="avatar-upload"
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageUpload}
+              disabled={isUpdatingProfile}
+            />
+          </label>
+        </div>
+        <p className="text-sm text-[#FFFCDC]/70">
+          {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
+        </p>
+      </div>
+
+      {/* User Info - Same structure */}
+      <div className="space-y-6">
+        <div className="space-y-1.5">
+          <div className="text-sm text-[#FFFCDC]/70 flex items-center gap-2">
+            <User className="w-4 h-4 text-[#00DF82]" />
+            Full Name
           </div>
+          <p className="px-4 py-2.5 bg-[#030F0F] rounded-lg border border-[#03624C]/30 text-[#FFFCDC]">
+            {(authUser as any)?.fullName}
+          </p>
+        </div>
 
-          {/* Avatar Upload Section */}
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative">
-              <img
-                src={selectedImg || authUser.profilePic || "/propic.jpg"}
-                alt="Profile"
-                className="size-32 rounded-full object-cover border-4"
-              />
-              <label
-                htmlFor="avatar-upload"
-                className={`absolute bottom-0 right-0 bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200 ${
-                  isUpdatingProfile ? "animate-pulse pointer-events-none" : ""
-                }`}
-              >
-                <Camera className="w-5 h-5 text-base-200" />
-                <input
-                  type="file"
-                  id="avatar-upload"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={isUpdatingProfile}
-                />
-              </label>
-            </div>
-            <p className="text-sm text-zinc-400">
-              {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
-            </p>
+        <div className="space-y-1.5">
+          <div className="text-sm text-[#FFFCDC]/70 flex items-center gap-2">
+            <Mail className="w-4 h-4 text-[#00DF82]" />
+            Email Address
           </div>
+          <p className="px-4 py-2.5 bg-[#030F0F] rounded-lg border border-[#03624C]/30 text-[#FFFCDC]">
+            {authUser?.email}
+          </p>
+        </div>
+      </div>
 
-          {/* User Info */}
-          <div className="space-y-6">
-            <div className="space-y-1.5">
-              <div className="text-sm text-zinc-400 flex items-center gap-2">
-                <User className="w-4 h-4" />
-                Full Name
-              </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{(authUser as any)?.fullName}</p>
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="text-sm text-zinc-400 flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                Email Address
-              </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.email}</p>
-            </div>
+      {/* Account Info - Same structure with theme colors */}
+      <div className="mt-6 bg-[#14281D] dark:bg-[#14281D] rounded-xl p-6 border border-[#03624C]/30">
+        <h2 className="text-lg font-medium text-[#00DF82] mb-4">Account Information</h2>
+        <div className="space-y-3 text-sm">
+          <div className="flex items-center justify-between py-2 border-b border-[#03624C]/30">
+            <span className="text-[#FFFCDC]/70">Member Since</span>
+            <span className="text-[#FFFCDC]">{(authUser as any)?.createdAt?.split("T")[0]}</span>
           </div>
-
-          {/* Account Information */}
-          <div className="mt-6 bg-base-300 rounded-xl p-6">
-            <h2 className="text-lg font-medium mb-4">Account Information</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between py-2 border-b border-zinc-700">
-                <span>Member Since</span>
-                <span>{(authUser as any)?.createdAt?.split("T")[0]}</span>
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <span>Account Status</span>
-                <span className="text-green-500">Active</span>
-              </div>
-            </div>
+          <div className="flex items-center justify-between py-2">
+            <span className="text-[#FFFCDC]/70">Account Status</span>
+            <span className="text-[#00DF82]">Active</span>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
   );
 };
 
