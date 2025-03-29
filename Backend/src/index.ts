@@ -16,7 +16,7 @@ app.use(express.urlencoded({ limit: "3mb", extended: true }));
 
 
 app.use(cors({
-  origin: "https://infinity-chat-rho.vercel.app", // Frontend URL
+  origin: "*", // Frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true // Allow cookies if needed
