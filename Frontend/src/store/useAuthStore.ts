@@ -4,7 +4,11 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { io, Socket } from "socket.io-client";
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = "https://infinitychat-od5i.onrender.com"
+// const BASE_URL = "http://localhost:5000"
+
+
+
 
 // Define the type for the auth user
 interface AuthUser {
