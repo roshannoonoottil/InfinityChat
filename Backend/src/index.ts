@@ -14,13 +14,13 @@ app
 app.use(express.json({ limit: "3mb" }));
 app.use(express.urlencoded({ limit: "3mb", extended: true }));
 
-
-app.use(cors({
-  origin: "*", // Frontend URL
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true // Allow cookies if needed
-}));
+app.use(cors());
+// app.use(cors({
+//   origin: "*", // Frontend URL
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true // Allow cookies if needed
+// }));
 
 app.use(cookieParser())
 
@@ -30,7 +30,6 @@ app.use('/api/messages', messageRoutes);
 const PORT = process.env.PORT;
 
 server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    connetDB()
+  console.log(`Server running on port ${PORT}`);
+  connetDB()
 });
- 
