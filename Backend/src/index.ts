@@ -15,12 +15,19 @@ app.use(express.json({ limit: "3mb" }));
 app.use(express.urlencoded({ limit: "3mb", extended: true }));
 
 
-app.use(cors({
-  origin: "https://infinity-chat-rho.vercel.app/*", // Frontend URL
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true // Allow cookies if needed
-}));
+// app.use(cors({
+//   origin: "https://infinity-chat-rho.vercel.app/*", // Frontend URL
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true // Allow cookies if needed
+// }));
+
+app.use(
+  cors({
+    origin: "https://infinity-chat-rho.vercel.app", // ✅ Remove the "/*"
+    credentials: true, // Allow cookies/auth headers if needed
+  })
+);
 
 app.use(cookieParser())
 
