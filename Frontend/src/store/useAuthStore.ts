@@ -89,7 +89,7 @@ login : async (data: Record<string, any>) => {
       // 🔥 Wait before calling checkAuth (Give time for cookie to be available)
       setTimeout(() => {
         get().checkAuth(); // Now check authentication
-      }, 500); // Small delay to allow cookie storage
+      }, 1000);
 
     get().connectSocket()
   } catch (error) {
