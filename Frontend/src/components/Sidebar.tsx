@@ -39,7 +39,7 @@ const Sidebar = () => {
   <div className="border-b border-[#03624C]/30 w-full p-5">
     <div className="flex items-center gap-2 text-[#00DF82]">
       <Users className="size-6" />
-      <span className="font-medium hidden lg:block">Contacts</span>
+      <span className="font-medium hidden lg:block">Users</span>
     </div>
 
     {/* Online Filter Toggle */}
@@ -85,7 +85,7 @@ const Sidebar = () => {
         </div>
 
         {/* User Info (Visible on larger screens) */}
-        <div className="hidden lg:block text-left min-w-0">
+        <div className="text-left min-w-0">
           <div className="font-medium truncate text-white">{user.fullName}</div>
           <div className="text-sm text-[#00DF82]/70">
             {onlineUsers.includes(user._id) ? "Online" : "Offline"}
