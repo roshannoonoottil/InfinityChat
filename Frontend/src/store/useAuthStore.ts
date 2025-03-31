@@ -86,6 +86,11 @@ login : async (data: Record<string, any>) => {
     set({ authUser: res.data });
     toast.success("Logged in successfully")
 
+      // 🔥 Wait before calling checkAuth (Give time for cookie to be available)
+      setTimeout(() => {
+        get().checkAuth(); // Now check authentication
+      }, 500); // Small delay to allow cookie storage
+
     get().connectSocket()
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
