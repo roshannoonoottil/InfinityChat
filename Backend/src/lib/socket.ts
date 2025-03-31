@@ -10,7 +10,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: ["https://infinity-chat-rho.vercel.app"],
-        credentials:true
+        // credentials:true
     }
 })
 
