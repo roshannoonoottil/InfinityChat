@@ -34,7 +34,7 @@ const Sidebar = () => {
   if (isUsersLoading) return <SidebarSkeleton />;
 
   return (
-<aside className="h-full w-32 lg:w-72 border-r border-[#03624C]/30 flex flex-col transition-all duration-200 bg-[#030F0F]">
+<aside className="h-full w-20 lg:w-72 border-r border-[#03624C]/30 flex flex-col transition-all duration-200 bg-[#030F0F]">
   {/* Header */}
   <div className="border-b border-[#03624C]/30 w-full p-5">
     <div className="flex items-center gap-2 text-[#00DF82]">
@@ -85,7 +85,7 @@ const Sidebar = () => {
         </div>
 
         {/* User Info (Visible on larger screens) */}
-        <div className="text-left min-w-0">
+        <div className="hidden lg:block text-left min-w-0">
           <div className="font-medium truncate text-white">{user.fullName}</div>
           <div className="text-sm text-[#00DF82]/70">
             {onlineUsers.includes(user._id) ? "Online" : "Offline"}
