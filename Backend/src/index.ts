@@ -1,19 +1,20 @@
+
+import dotenv from 'dotenv'
+dotenv.config()
 import express from 'express';
 import authRoutes from './routes/auth.route'
 import messageRoutes from './routes/message.route'
-import dotenv from 'dotenv'
 import { connetDB } from './lib/db';
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { app, server } from './lib/socket';
 
 
-dotenv.config()
-app
 
 app.use(express.json({ limit: "3mb" }));
 app.use(express.urlencoded({ limit: "3mb", extended: true }));
 
+app.use(cookieParser())
 
 app.use(cors({
   origin: "https://infinity-chat-rho.vercel.app", // Frontend URL
@@ -35,7 +36,6 @@ app.use((req, res, next) => {
 //   })
 // );
 
-app.use(cookieParser())
 
 app.use('/api/auth', authRoutes)
 app.use('/api/messages', messageRoutes);
