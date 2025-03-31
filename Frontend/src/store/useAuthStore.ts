@@ -83,6 +83,8 @@ login : async (data: Record<string, any>) => {
   set({ isLoggingIn: true });
   try {
     const res = await axiosInstance.post("/auth/login", data);
+    console.log("res data"), res.data;
+    
     set({ authUser: res.data });
     toast.success("Logged in successfully")
 
