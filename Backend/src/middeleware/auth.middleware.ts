@@ -11,10 +11,8 @@ interface AuthRequest extends Request {
 export const protectRoute = async (req : AuthRequest, res : Response, next : NextFunction): Promise<void> => {
     try {
         const token = req.cookies.jwt;
-
+        console.log("token", token);
         if(!token){
-            console.log("token", token);
-            
             res.status(401).json({message: "Unauthorized - No Token Provided"});
             return ;
         }
