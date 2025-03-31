@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { io, Socket } from "socket.io-client";
 
-const BASE_URL = "https://infinitychat-od5i.onrender.com/api"
+const BASE_URL = "https://infinitychat-od5i.onrender.com"
 // const BASE_URL = "http://localhost:5000"
 
 
