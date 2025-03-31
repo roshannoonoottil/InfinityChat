@@ -25,6 +25,7 @@ app.use(cors({
 
 // Also, set Access-Control-Allow-Credentials explicitly
 app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://infinity-chat-rho.vercel.app");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
