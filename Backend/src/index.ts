@@ -16,12 +16,39 @@ app.use(express.urlencoded({ limit: "3mb", extended: true }));
 
 app.use(cookieParser())
 
-app.use(cors({
-  origin: "https://infinity-chat-rho.vercel.app", // Frontend URL
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true // Allow cookies if needed
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "https://infinity-chat-rho.vercel.app", // ✅ Deployed frontend
+        "http://localhost:3000", // ✅ Local development frontend
+      ];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // ✅ Required for cookies/auth headers
+  })
+);
+
+// ✅ Debug: Log incoming request headers (helps find missing tokens)
+app.use((req, res, next) => {
+  console.log("🔹 Incoming request headers:", req.headers);
+  next();
+});
+
+// ✅ Manually set CORS headers (fixes Safari/iPhone issues)
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://infinity-chat-rho.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 // Also, set Access-Control-Allow-Credentials explicitly
 app.use((req, res, next) => {
