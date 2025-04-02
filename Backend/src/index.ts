@@ -32,6 +32,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // ✅ Required for cookies/auth headers
+    exposedHeaders: ["set-cookie"] // Important for iOS
   })
 );
 
