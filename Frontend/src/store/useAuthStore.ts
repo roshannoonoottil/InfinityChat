@@ -86,6 +86,10 @@ login : async (data: Record<string, any>) => {
     console.log("res data", res.data);
     
     set({ authUser: res.data });
+
+    // 🔥 Store token manually for iPhones
+    localStorage.setItem("auth_token", res.data.token);
+
     toast.success("Logged in successfully")
 
     get().connectSocket()
