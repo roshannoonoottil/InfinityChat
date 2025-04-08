@@ -16,7 +16,6 @@ export const generateToken = (userId : String, res : Response) =>{
         httpOnly: true, // prevent XSS attacks cross-site scripting attacks
         sameSite: "none", // Fix cross-site cookie issues
         secure: true, // Always secure (since your site is HTTPS)
-        domain: ".vercel.app", // Important for cross-domain cookies
         path: "/", // Ensure cookie is sent for all paths
       });
     
